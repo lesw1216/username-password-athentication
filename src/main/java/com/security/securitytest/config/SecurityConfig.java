@@ -26,11 +26,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                        .antMatchers("/login", "/join").permitAll()
-                        .anyRequest().authenticated()
+                .antMatchers("/login", "/join").permitAll()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
-                    .loginPage("/login");
+                    .loginPage("/login")
+                    .defaultSuccessUrl("/")
+                .and()
+                .logout()
+                    .logoutUrl("/logout")
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessUrl("/login");
 
         return http.build();
     }

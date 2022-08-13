@@ -4,6 +4,7 @@ import com.security.securitytest.dto.UserDTO;
 import com.security.securitytest.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,16 +22,17 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @GetMapping("/login")
     public String login() {
         return "/user/login";
     }
 
-    @PostMapping("/login")
-    public String loginForm(@RequestBody String username, String password) {
-        log.info("username = {}, password = {}", username, password);
-        return "/index";
-    }
+//    @PostMapping("/login")
+//    public String loginForm(@RequestBody String username, String password) {
+//        log.info("username = {}, password = {}", username, password);
+//        return "/index";
+//    }
 
     @GetMapping("/join")
     public String join() {
@@ -43,9 +45,9 @@ public class UserController {
         UserDTO userDTO = new UserDTO(username, password);
         if (userService.save(userDTO)) {
             // 가입 성공으로 로그인하러 로그인 페이지로 이동.
-            return "/user/login";
+            return "redirect:/user/login";
         } else {
-            return "redirect:/join";
+            return "redirect:/user/join";
         }
 
     }
